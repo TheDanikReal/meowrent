@@ -1,0 +1,9 @@
+diff --git a/node_modules/spectron/lib/launcher.js b/node_modules/spectron/lib/launcher.js
+index 0a8df1b..dc005f6 100755
+--- a/node_modules/spectron/lib/launcher.js
++++ b/node_modules/spectron/lib/launcher.js
+@@ -33,4 +33,3 @@ appProcess.on('exit', function (code) {
+ });
+ appProcess.stderr.pipe(process.stdout);
+ appProcess.stdout.pipe(process.stdout);
+-appProcess.stdin.pipe(process.stdin);
