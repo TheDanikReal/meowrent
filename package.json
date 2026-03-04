@@ -73,6 +73,7 @@
     "minimist": "1.2.8",
     "nodemon": "3.1.14",
     "open": "8.4.2",
+    "patch-package": "^8.0.1",
     "plist": "3.1.0",
     "pngjs": "7.0.0",
     "run-series": "1.1.9",
@@ -115,6 +116,7 @@
     "install-system-deps": "brew install fakeroot dpkg rpm",
     "open-config": "node ./bin/open-config.js",
     "package": "node ./bin/package.js",
+    "postinstall": "patch-package",
     "start": "npm run build && electron --no-sandbox .",
     "test": "standard && depcheck --ignores=standard,@babel/eslint-parser --ignore-dirs=build,dist",
     "test-integration": "npm run build && node ./test",
@@ -123,6 +125,11 @@
   },
   "standard": {
     "parser": "@babel/eslint-parser"
+  },
+  "overrides": {
+    "spectron": {
+      "electron-chromedriver": "40.6.1"
+    }
   },
   "renovate": {
     "extends": [

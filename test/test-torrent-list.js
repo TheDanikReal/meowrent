@@ -14,7 +14,7 @@ test('torrent-list: show download path missing', function (t) {
     .then(() => app.client.waitUntilTextExists('.torrent-list', 'Download path missing'))
     .then((err) => t.notOk(err))
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list-download-path-missing'))
-    .then(() => app.client.click('a'))
+    .then(() => app.client.$('a').click())
     .then(() => setup.wait())
     .then(() => app.browserWindow.getTitle())
     .then((windowTitle) => t.equal(windowTitle, 'Preferences', 'window title'))
@@ -31,23 +31,23 @@ test('torrent-list: start, stop, and delete torrents', function (t) {
     .then(() => app.client.waitUntilTextExists('.torrent-list', 'Big Buck Bunny'))
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list'))
     // Click download on the first torrent, start downloading
-    .then(() => app.client.click('.download input'))
+    .then(() => app.client.$('.download input').click())
     .then(() => app.client.waitUntilTextExists('.torrent-list', '276 MB'))
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list-start-download'))
     // Click download on the first torrent again, stop downloading
-    .then(() => app.client.click('.download input'))
+    .then(() => app.client.$('.download input').click())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list-download'))
     // Click delete on the first torrent
-    .then(() => app.client.click('.icon.delete'))
+    .then(() => app.client.$('.icon.delete').click())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list-delete-prompt'))
     // Click cancel on the resulting confirmation dialog. Should be same as before.
-    .then(() => app.client.click('.control.cancel'))
+    .then(() => app.client.$('.control.cancel').click())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list-2'))
     // Click delete on the first torrent again
-    .then(() => app.client.click('.icon.delete'))
+    .then(() => app.client.$('.icon.delete').click())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list-delete-prompt'))
     // This time, click OK to confirm.
-    .then(() => app.client.click('.control.ok'))
+    .then(() => app.client.$('.control.ok').click())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list-deleted'))
     .then(() => setup.endTest(app, t),
       (err) => setup.endTest(app, t, err || 'error'))
@@ -60,13 +60,13 @@ test('torrent-list: expand torrent, unselect file', function (t) {
   setup.waitForLoad(app, t)
     .then(() => app.client.waitUntilTextExists('.torrent-list', 'Big Buck Bunny'))
     // Click on the torrent, expand
-    .then(() => app.client.click('#torrent-cosmos'))
+    .then(() => app.client.$('#torrent-cosmos').click())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list-cosmos-expand'))
     // Deselect the first file
-    .then(() => app.client.click('#torrent-cosmos .icon.deselect-file'))
+    .then(() => app.client.$('#torrent-cosmos .icon.deselect-file').click())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list-cosmos-expand-deselect'))
     // Start the torrent
-    .then(() => app.client.click('#torrent-cosmos .download input'))
+    .then(() => app.client.$('#torrent-cosmos .download input').click())
     .then(() => app.client.waitUntilTextExists('.torrent-list', '0%'))
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list-cosmos-expand-start'))
     // Make sure that it creates all files EXCEPT the deslected one
@@ -90,7 +90,7 @@ test('torrent-list: expand torrent, unselect file', function (t) {
       'dispatch("confirmDeleteTorrent", "6a02592d2bbc069628cd5ed8a54f88ee06ac0ba5", true)'))
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list-cosmos-delete-data'))
     // Click confirm
-    .then(() => app.client.click('.control.ok'))
+    .then(() => app.client.$('.control.ok').click())
     .then(() => setup.screenshotCreateOrCompare(app, t, 'torrent-list-cosmos-deleted'))
     // Make sure that all the files are gone
     // TODO: Disabled test because it stopped working

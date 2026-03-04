@@ -9,9 +9,9 @@ test('video-streaming', function (t) {
   setup.waitForLoad(app, t, { online: true })
     .then(() => app.client.waitUntilTextExists('.torrent-list', 'Big Buck Bunny'))
     // Play Big Buck Bunny. Wait for it to start streaming.
-    .then(() => app.client.moveToObject('.torrent'))
+    .then(() => app.client.$('.torrent').moveTo())
     .then(() => setup.wait())
-    .then(() => app.client.click('.icon.play'))
+    .then(() => app.client.$('.icon.play').click())
     .then(() => setup.wait(10e3))
     // Pause. Skip to two seconds in. Wait another two seconds for it to load.
     .then(() => app.webContents.executeJavaScript('dispatch("playPause")'))
@@ -23,11 +23,11 @@ test('video-streaming', function (t) {
     .then(() => app.webContents.executeJavaScript('dispatch("escapeBack")'))
     .then(() => setup.wait())
     // Delete Big Buck Bunny
-    .then(() => app.client.moveToObject('.torrent'))
+    .then(() => app.client.$('.torrent').moveTo())
     .then(() => setup.wait())
-    .then(() => app.client.click('.icon.delete'))
+    .then(() => app.client.$('.icon.delete').click())
     .then(() => setup.wait())
-    .then(() => app.client.click('.control.ok'))
+    .then(() => app.client.$('.control.ok').click())
     // Take another screenshot to verify that the window resized correctly
     .then(() => setup.screenshotCreateOrCompare(app, t, 'play-torrent-return'))
     .then(() => setup.endTest(app, t),

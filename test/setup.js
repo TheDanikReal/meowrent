@@ -34,7 +34,7 @@ function createApp (t) {
   return new Application({
     path: path.join(__dirname, '..', 'node_modules', '.bin',
       'electron' + (process.platform === 'win32' ? '.cmd' : '')),
-    args: ['-r', path.join(__dirname, 'mocks.js'), path.join(__dirname, '..')],
+    args: ['--no-sandbox', '-r', path.join(__dirname, 'mocks.js'), path.join(__dirname, '..')],
     chromeDriverArgs: [`--user-data-dir=${userDataDir}`],
     env: { NODE_ENV: 'test' },
     waitTimeout: 10e3
@@ -49,9 +49,16 @@ function waitForLoad (app, t, opts) {
   }).then(function () {
     // Offline mode
     if (!opts.online) app.webContents.executeJavaScript('testOfflineMode()')
-  }).then(function () {
-    // Switch to the main window. Index 0 is apparently the hidden webtorrent window...
-    return app.client.windowByIndex(1)
+  }).then(async function () {
+    // Switch to the main window by finding it by title (index ordering varies in Electron 40+)
+    const handles = await app.client.getWindowHandles()
+    for (let i = 0; i < handles.length; i++) {
+      await app.client.windowByIndex(i)
+      await app.client.waitUntilWindowLoaded()
+      const title = await app.webContents.getTitle()
+      if (title === 'Main Window') return
+    }
+    throw new Error('Main Window not found among ' + handles.length + ' window(s)')
   }).then(function () {
     return app.client.waitUntilWindowLoaded()
   }).then(function () {
